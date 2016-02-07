@@ -170,7 +170,7 @@ private:
             
             if(ramka_gracz.intersects(wrogowie.at(i)->ramka()))
                 gracz->damaged();
-
+			
             
 
 
