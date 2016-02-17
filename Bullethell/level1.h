@@ -184,6 +184,7 @@ private:
 				{
 				case 1:
 					wybuch.ustaw_skale(0.8);
+					gracz->super_atak_ustaw_dostepny();
 					break;
 				case 2:
 					wybuch.ustaw_skale(1.2);

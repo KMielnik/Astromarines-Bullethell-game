@@ -75,7 +75,7 @@ public:
         gracz = new player();
         poziom = new menu();
         numer_poziomu = 0;   //tutaj zmien startowy poziom
-        font_gry.loadFromFile("assets//font_gry.ttf");
+        font_gry.loadFromFile("assets\\font_gry.ttf");
         window=window_src;
         set_controls();
 		muzyka_tlo.openFromFile("assets\\menu.ogg");

@@ -14,7 +14,8 @@ class player
 private:
 	double HP,HP_max;
 	sf::Sprite gracz;
-	sf::Texture texture;
+	sf::Texture pojazdTekstura;
+	sf::Texture pojazdPowerUpReadyTekstura;
 	sf::Vector2f wymiary;
 	sf::Vector2f predkosc;
 	sf::CircleShape target;
@@ -26,6 +27,7 @@ private:
 	std::vector<bullets> pociski;
 	sf::Clock zegar_strzalu;
 	int weapon_level;
+	bool super_atak_dostepny;
 	bool super_atak;
 	sf::SoundBuffer ora_buffer;
 	sf::Sound ora_sound;
@@ -142,6 +144,11 @@ public:
 	{
 		if (ora_sound.getPlayingOffset() > sf::seconds(2))
 			pociski_wrogow.clear();
+		if (ora_sound.getPlayingOffset() > sf::seconds(2.5))
+		{
+			super_atak_dostepny = false;
+			gracz.setTexture(pojazdTekstura);
+		}
 		if (ora_sound.getPlayingOffset() > sf::seconds(3.4) && ora_sound.getPlayingOffset() < sf::seconds(6.8))
 			super_bron(false);																			//final modo
 		if (ora_sound.getPlayingOffset() > sf::seconds(7.4) && ora_sound.getPlayingOffset() < sf::seconds(7.6))
@@ -195,10 +202,12 @@ public:
 
 	player()
 	{
-		texture.loadFromFile("assets\\pojazd.png");
-		texture.setSmooth(true);
+		pojazdTekstura.loadFromFile("assets\\pojazd.png");
+		pojazdPowerUpReadyTekstura.loadFromFile("assets\\pojazdpowerupready.png");
 
-		gracz.setTexture(texture);
+		
+
+		gracz.setTexture(pojazdTekstura);
 		gracz.setScale(0.2f, 0.25f);
 		gracz.setOrigin(256 / 2, 231 / 2);
 		wymiary.x = 256 * 0.2f;
@@ -285,10 +294,19 @@ public:
 
 	void start_super(sf::Music &muzyka_tlo)
 	{
-		muzyka_tlo.setVolume(20);
-		if(ora_sound.getStatus()!=sf::Sound::Playing)
+		
+		if (ora_sound.getStatus() != sf::Sound::Playing && super_atak_dostepny == true)
+		{
+			muzyka_tlo.setVolume(20);
 			ora_sound.play();
-		super_atak = true;
+			super_atak = true;
+		}
+	}
+
+	void super_atak_ustaw_dostepny()
+	{
+		super_atak_dostepny = true;
+		gracz.setTexture(pojazdPowerUpReadyTekstura);
 	}
 };
 
