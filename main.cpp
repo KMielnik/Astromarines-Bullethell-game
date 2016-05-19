@@ -7,7 +7,7 @@ class_okno okno;
 int main()
 {
     srand( time( NULL ) );
-	sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(okno.szerokosc_okna, okno.wysokosc_okna), "Alpha 0.00000005",sf::Style::Fullscreen);
+	sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(okno.szerokosc_okna, okno.wysokosc_okna), "Alpha 0.000000005",sf::Style::Fullscreen);
 	window->requestFocus();
 	window->setMouseCursorVisible(false);
     window->setFramerateLimit(60);

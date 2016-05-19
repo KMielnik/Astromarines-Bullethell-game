@@ -53,7 +53,7 @@ public:
 		window->display();
     }
 
-    
+
 
 
     level1(player *gracz_src)
@@ -167,15 +167,15 @@ private:
                 wrogowie.erase(wrogowie.begin()+i);
                 continue;
             }
-            
+
             if(ramka_gracz.intersects(wrogowie.at(i)->ramka()))
                 gracz->damaged();
-			
-            
+
+
 
 
             wrogowie.at(i)->strzal(pociski_wrogow);
-			
+
 
             if(wrogowie.at(i)->obrazenia(*gracz))                                       //jesli umarl to :(
             {
@@ -184,6 +184,7 @@ private:
 				{
 				case 1:
 					wybuch.ustaw_skale(0.8);
+					gracz->super_atak_ustaw_dostepny();
 					break;
 				case 2:
 					wybuch.ustaw_skale(1.2);
@@ -192,7 +193,7 @@ private:
 					wybuch.ustaw_skale(1.0);
 					break;
 				}
-				
+
                 eksplozje.push_back(wybuch);
                 delete wrogowie.at(i);
                 wrogowie.erase(wrogowie.begin()+i);
@@ -229,7 +230,7 @@ private:
 		char tekstowy_czas[5];
 		int milisekundy = pozostaly_czas_w_milisekundach % 1000;
 		if (pozostaly_czas_w_milisekundach >= 0)
-			sprintf_s(tekstowy_czas, "%i.%i", (pozostaly_czas_w_milisekundach - milisekundy) / 1000, milisekundy / 100);
+			sprintf(tekstowy_czas, "%i.%i", (pozostaly_czas_w_milisekundach - milisekundy) / 1000, milisekundy / 100);
 		wyswietlacz.setString(tekstowy_czas);
 		if (pozostaly_czas_w_milisekundach <= 0)
 		{
