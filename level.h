@@ -1,24 +1,17 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 
 class level
 {
-public:
+  public:
 
     virtual bool logika_poziomu( sf::RenderWindow *window,
-                                 std::map<std::string, sf::Keyboard::Key> controls )
+        std::map<std::string, sf::Keyboard::Key> controls)
     {
-        return true;
+      return true;
     }
 
-    virtual void wyswietl_poziom(sf::RenderWindow *window)
-    {
+    virtual void wyswietl_poziom(sf::RenderWindow *window){}
 
-    }
-
-
-
-    virtual ~level()
-    {
-
-    }
+    virtual ~level(){}
 };
