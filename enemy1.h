@@ -8,7 +8,7 @@ class enemy1 : public enemy
 {
   private:
 
-    enum kierunek
+    enum kierunek 
     {
       up=1,
       down=2,

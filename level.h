@@ -6,7 +6,7 @@ class level
   public:
 
     virtual bool logika_poziomu( sf::RenderWindow *window,
-        std::map<std::string, sf::Keyboard::Key> controls)
+        std::map<std::string, sf::Keyboard::Key> controls) 
     {
       return true;
     }

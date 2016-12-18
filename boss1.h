@@ -6,7 +6,7 @@
 class boss1 : public boss0
 {
 
-  std::string kierunek_lotuX;
+  std::string kierunek_lotuX; 
   std::string kierunek_lotuY;
   int przeleconeX;
   int przeleconeY;

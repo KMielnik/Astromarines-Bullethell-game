@@ -6,7 +6,7 @@ class boss0
 {
   protected:
     double HP;
-    double HP_max; 
+    double HP_max;
     sf::RectangleShape HP_bar, HP_bar_tlo;
     std::vector<sf::Sprite> boss;
     sf::Texture tekstura_bossa;

@@ -4,7 +4,7 @@
 void player::bron1()
 {
   sf::Time czas = zegar_strzalu.getElapsedTime();
-  if (czas.asMilliseconds() > 200)
+  if (czas.asMilliseconds() > 200) 
   {
     float y = pozycja().y - mysz.y - wymiary.y / 6.0f;
     float x = mysz.x - pozycja().x;                                    //aby zrozumiec podpisz 1 pakt z diab³em

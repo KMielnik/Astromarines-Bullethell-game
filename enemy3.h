@@ -7,7 +7,7 @@ class enemy3 : public enemy
 {
   float ktore_dzialo;
 
-  void strzal(std::vector<bullets> &pociski)
+  void strzal(std::vector<bullets> &pociski) 
   {
     sf::Time czas = zegar_strzalu.getElapsedTime();
     if (czas.asMilliseconds() > 30)

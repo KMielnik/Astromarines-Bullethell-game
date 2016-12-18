@@ -11,7 +11,7 @@ int main()
   window->requestFocus();
   window->setMouseCursorVisible(false);
   window->setFramerateLimit(60);
-
+ 
   game gra(window);
 
   while (window->isOpen())
