@@ -6,7 +6,7 @@ class explosion
 {
   int ktora_klatka;
   std::vector<sf::Sprite> eksplozja_klatka;
- 
+
   public:
 
   bool rysuj_klatke(sf::RenderWindow &okienko)

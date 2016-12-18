@@ -6,7 +6,7 @@
 #include <cstdlib>
 
 extern class_okno okno;
-
+ 
 struct bullets
 {
   sf::Vector2f polozenie;

@@ -4,7 +4,7 @@
 #include "okno.h"
 #include "player.h"
 
-extern class_okno okno; 
+extern class_okno okno;
 
 class enemy
 {

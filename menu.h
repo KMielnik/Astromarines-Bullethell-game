@@ -15,7 +15,7 @@ class menu : public level
   {
     sf::RectangleShape pole;
     sf::FloatRect ramka;
-    sf::Text napis; 
+    sf::Text napis;
     sf::Font font_przycisku;
 
     void rysuj_przycisk(sf::RenderWindow *window)

@@ -13,7 +13,7 @@ class level1boss : public level
   boss0 *szef;
   sf::Music muzyka_tlo;
   std::vector<bullets> pociski_wrogow; /////fuj placeholder :P
- 
+
   public:
   bool logika_poziomu( sf::RenderWindow *window,
       std::map<std::string, sf::Keyboard::Key> controls )

@@ -6,7 +6,7 @@
 #include <SFML/Audio.hpp>
 #include "player.h"
 
-class game 
+class game
 {
   player *gracz;
   level *poziom;
