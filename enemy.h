@@ -11,7 +11,9 @@ class enemy
   protected:
     double HP;
     double HP_max;
-    sf::Sprite wrog;
+	std::vector<sf::Sprite> wrog;
+	sf::Texture tekstura_wroga;
+	int klatka_wroga;
     sf::Vector2f wymiary;
     sf::RectangleShape HP_bar, HP_bar_tlo;
     float kat;
@@ -21,40 +23,45 @@ class enemy
 
     virtual void przemieszczenie()
     {
-      wrog.move(0, 1);
+		for(sf::Sprite &przeciwnik : wrog)
+      przeciwnik.move(0, 1 * okno.skalaX);
     }
 
     bool wylecial_za_mape()
     {
-      if (wrog.getPosition().x<-10*wymiary.x || wrog.getPosition().x>okno.szerokosc_okna + 10*wymiary.x) return true;
-      if (wrog.getPosition().y<-10*wymiary.y || wrog.getPosition().y>okno.wysokosc_okna + 10*wymiary.y) return true;
+      if (wrog.at(0).getPosition().x<-10*wymiary.x || wrog.at(0).getPosition().x>okno.szerokosc_okna + 10 * wymiary.x) return true;
+	  if (wrog.at(0).getPosition().y<-10 * wymiary.y || wrog.at(0).getPosition().y>okno.wysokosc_okna + 10*wymiary.y) return true;
       return false;
     }
 
 
     sf::Vector2f pozycja()
     {
-      sf::Vector2f polozenie = wrog.getPosition();
+      sf::Vector2f polozenie = wrog.at(0).getPosition();
       return polozenie;
     }
 
 
     sf::FloatRect ramka()
     {
-      sf::FloatRect obwodka = wrog.getGlobalBounds();
+      sf::FloatRect obwodka = wrog.at(0).getGlobalBounds();
       return obwodka;
     }
 
 
     enemy()
     {
-
-      wrog.setScale(0.2f, 0.25f);
-      wrog.setOrigin(334 / 2, 224 / 2);
+	  for (sf::Sprite &przeciwnik : wrog)
+	  {
+			przeciwnik.setScale(0.2f, 0.25f);
+			przeciwnik.setOrigin(334 / 2, 224 / 2);
+	  }
+      
       wymiary.x = 334 * 0.2f;
       wymiary.y = 224 * 0.3f;
       int losowa_pozycja_x = std::rand() % (int)(okno.szerokosc_okna-(wymiary.x/2)) + (int)wymiary.x/2;
-      wrog.setPosition(losowa_pozycja_x, 0-wymiary.y);
+	  for (sf::Sprite &przeciwnik : wrog)
+      przeciwnik.setPosition(losowa_pozycja_x, 0-wymiary.y);
 
       HP_bar.setSize(sf::Vector2f(wymiary.x, 3));
       HP_bar.setOrigin(sf::Vector2f(wymiary.x / 2, 1.5));
@@ -71,8 +78,8 @@ class enemy
     {
       std::vector<bullets> pociski=gracz.get_pociski();
       for(unsigned int i=0;i<pociski.size();i++)
-        if(wrog.getGlobalBounds().contains(pociski[i].polozenie.x,pociski[i].polozenie.y))
-        {
+        if(wrog.at(0).getGlobalBounds().contains(pociski[i].polozenie.x, pociski[i].polozenie.y))
+		{
           HP--;
           HP_bar.setSize(sf::Vector2f((HP_bar_tlo.getSize().x-2) * HP / HP_max, 3));
           gracz.usun_pocisk(i);
@@ -94,11 +101,14 @@ class enemy
 
     virtual void rysuj_wroga(sf::RenderWindow &okienko)
     {
-      HP_bar.setPosition(wrog.getPosition().x, wrog.getPosition().y + (wymiary.y * 7 / 10));
-      HP_bar_tlo.setPosition(wrog.getPosition().x, wrog.getPosition().y + (wymiary.y * 7 / 10));
+      HP_bar.setPosition(wrog.at(0).getPosition().x, wrog.at(0).getPosition().y + (wymiary.y * 7 / 10));
+      HP_bar_tlo.setPosition(wrog.at(0).getPosition().x, wrog.at(0).getPosition().y + (wymiary.y * 7 / 10));
 
 
-      okienko.draw(wrog);
+	  okienko.draw(wrog.at(int(klatka_wroga / 10)));
+	  klatka_wroga++;
+	  if (klatka_wroga >= 60)
+		  klatka_wroga = 0;
       okienko.draw(HP_bar_tlo);
       okienko.draw(HP_bar);
 

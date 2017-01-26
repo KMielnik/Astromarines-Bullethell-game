@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "enemy.h"
 
-class enemy3 : public enemy
+class enemy4 : public enemy
 {
   float ktore_dzialo;
 
@@ -42,15 +42,15 @@ class enemy3 : public enemy
         case 2:
           pocisk.polozenie.x = wrog.at(0).getPosition().x + wymiary.x / 2.4;
 		  pocisk.polozenie.y = wrog.at(0).getPosition().y + wymiary.y / 18;
-          pocisk.vector.x = 5.13f;
-          pocisk.vector.y = 1;
+          pocisk.vector.x = 5.13f * okno.skalaX;
+          pocisk.vector.y = 1 * okno.skalaY;
 
           break;
         case 5:
           pocisk.polozenie.x = wrog.at(0).getPosition().x - wymiary.x / 2.4;
 		  pocisk.polozenie.y = wrog.at(0).getPosition().y + wymiary.y / 18;
-          pocisk.vector.x = -5.13f;
-          pocisk.vector.y = 1;
+          pocisk.vector.x = -5.13f * okno.skalaX;
+          pocisk.vector.y = 1 * okno.skalaY;
           break;
 
       }
@@ -63,25 +63,25 @@ class enemy3 : public enemy
     }
   }
   public:
-  enemy3(std::vector<sf::Texture*> enemytexture)
+  enemy4(std::vector<sf::Texture*> enemytexture)
   {
     nr_typu_wroga = 3;
 	for (int i = 0;i<6;i++)
 	{
 		sf::Sprite klatka_wroga;
-		klatka_wroga.setOrigin(127.5, 195);
+		klatka_wroga.setOrigin(127.5, 127.5);
 		klatka_wroga.setScale(0.3f, 0.3f);
 
 		klatka_wroga.setPosition(okno.szerokosc_okna / 2, okno.wysokosc_okna / 8);
-		klatka_wroga.setTexture(*enemytexture[3]);
-		klatka_wroga.setTextureRect(sf::IntRect(i * 255, 0, 255, 390));
+		klatka_wroga.setTexture(*enemytexture[4]);
+		klatka_wroga.setTextureRect(sf::IntRect(i * 255, 0, 255, 255));
 		wrog.push_back(klatka_wroga);
 
 	}
 	for (sf::Sprite &przeciwnik : wrog)
 	{
 		przeciwnik.setScale(0.3f*okno.skalaX, 0.3f*okno.skalaY);
-		przeciwnik.setOrigin(255 / 2, 395 / 2);
+		przeciwnik.setOrigin(255 / 2, 255 / 2);
 	}
 	wymiary.x = 255 * 0.3f*okno.skalaX;
 	wymiary.y = 255 * 0.3f*okno.skalaY;

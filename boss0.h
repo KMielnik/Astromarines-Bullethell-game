@@ -5,8 +5,7 @@
 class boss0
 {
   protected:
-    double HP;
-    double HP_max;
+    
     sf::RectangleShape HP_bar, HP_bar_tlo;
     std::vector<sf::Sprite> boss;
     sf::Texture tekstura_bossa;
@@ -35,8 +34,9 @@ class boss0
 
 
     virtual void ustaw_dziala() = 0;
-
-
+	virtual void strzal(std::vector<bullets> &pociski) = 0;
+	virtual bool ded() = 0;
+	virtual void stopMusic() = 0;
 
     ~boss0()
     {

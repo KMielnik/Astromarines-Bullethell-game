@@ -6,11 +6,11 @@
 #include "explosion.h"
 #include "enemy.h"
 #include "enemy1.h"
-#include "enemy2.h"
+#include "enemy4.h"
 #include "enemy3.h"
 
 
-class level1 : public level
+class level2 : public level
 {
   sf::Texture tekstura_tla;
   sf::Sprite tlo;
@@ -27,6 +27,7 @@ class level1 : public level
   sf::Font font_wyswietlacz;
   sf::Text wyswietlacz;
   sf::Music muzyka_tlo;
+
   public:
   bool logika_poziomu( sf::RenderWindow *window,
       std::map<std::string, sf::Keyboard::Key> controls )
@@ -68,7 +69,7 @@ class level1 : public level
 
 
 
-  level1(player *gracz_src)
+  level2(player *gracz_src)
   {
     tekstura_tla.loadFromFile("assets//spacebg.png");
     tlo.setTexture(tekstura_tla);
@@ -78,7 +79,7 @@ class level1 : public level
     gracz = gracz_src;
 
     //ustawianie tekstur wrogow
-    for(int i=0;i<=3;i++)
+    for(int i=0;i<=4;i++)
     {
       sf::Texture *texture = new sf::Texture;
       std::string nazwapliku="assets//enemy";
@@ -95,7 +96,6 @@ class level1 : public level
       {
         sf::Sprite sprite_klatki;
         sprite_klatki.setOrigin(50,40);
-		sprite_klatki.setScale(okno.skalaX, okno.skalaY);
         sprite_klatki.setTexture(eksplozja_sprite);
         sprite_klatki.setTextureRect(sf::IntRect(j*100,i*100,100,100));
         eksplozja_klatka.push_back(sprite_klatki);
@@ -113,7 +113,7 @@ class level1 : public level
     muzyka_tlo.play();
   }
 
-  ~level1()
+  ~level2()
   {
     for(unsigned int i=0;i<enemytexture.size();i++)
       delete enemytexture.at(i);
@@ -126,36 +126,36 @@ class level1 : public level
 
   private:
 
-  void tworzenie_wroga()
-  {
-    if(zegar_wroga.getElapsedTime()>sf::seconds(2))
-    {
-      int ktory_wrog = std::rand() % 2 + 2;
-      enemy *temp_pointer;
-      switch(ktory_wrog)
-      {
-        case 2:
-          temp_pointer= new enemy2(enemytexture);
-          break;
-        case 3:
-          temp_pointer= new enemy3(enemytexture);
-          break;
-        default:
-          temp_pointer= new enemy;
-          break;
-      }
-      zegar_wroga.restart();
-
-      wrogowie.push_back(temp_pointer);
-
-	  if (zegar_poweruppa.getElapsedTime() > sf::seconds(15))
+	  void tworzenie_wroga()
 	  {
-		  temp_pointer = new enemy1(enemytexture);
-		  wrogowie.push_back(temp_pointer);
-		  zegar_poweruppa.restart();
+		  if (zegar_wroga.getElapsedTime()>sf::seconds(1.2))
+		  {
+			  int ktory_wrog = std::rand() % 2 + 2;
+			  enemy *temp_pointer;
+			  switch (ktory_wrog)
+			  {
+			  case 2:
+				  temp_pointer = new enemy4(enemytexture);
+				  break;
+			  case 3:
+				  temp_pointer = new enemy3(enemytexture);
+				  break;
+			  default:
+				  temp_pointer = new enemy;
+				  break;
+			  }
+			  zegar_wroga.restart();
+
+			  wrogowie.push_back(temp_pointer);
+
+			  if (zegar_poweruppa.getElapsedTime() > sf::seconds(15))
+			  {
+				  temp_pointer = new enemy1(enemytexture);
+				  wrogowie.push_back(temp_pointer);
+				  zegar_poweruppa.restart();
+			  }
+		  }
 	  }
-    }
-  }
 
   void poruszanie_gracza(std::map<std::string, sf::Keyboard::Key> controls)
   {

@@ -1,6 +1,7 @@
 #pragma once
 #include "level.h"
 #include "level1.h"
+#include "level2.h"
 #include "level1boss.h"
 #include "menu.h"
 #include <SFML/Audio.hpp>
@@ -20,42 +21,66 @@ class game
   {
     muzyka_tlo.pause();
     numer_poziomu++;
-    gracz->level_up();
+	if (gracz->zycie() < 0)
+	{
+		numer_poziomu = 0;
+		delete gracz;
+		gracz = new player();
+		sf::Music deddd;
+		deddd.openFromFile("assets//deddd.ogg");
+		deddd.play();
+		ekran_powitalny_poziomu("ZOSTALES ZNISZCZONY\nKONIEC GRY",false);
+		muzyka_tlo.play();
+	}
+		
     switch(numer_poziomu)
     {
       case 0:
         delete poziom;
         poziom = new menu();
+		muzyka_tlo.play();
         break;
       case 1:
         delete poziom;
-        ekran_powitalny_poziomu("Poziom 1");
+        ekran_powitalny_poziomu("Poziom 1",true);
         poziom = new level1(gracz);
         break;
-      case 2:
+	  case 2:
+		  delete poziom;
+		  ekran_powitalny_poziomu("Poziom 2",true);
+		  poziom = new level2(gracz);
+		  break;
+      case 3:
         delete poziom;
-        ekran_powitalny_poziomu(("BOSS 1"));
+        ekran_powitalny_poziomu("BOSS",true);
         poziom = new level1boss(gracz);
         break;
+	  case 4:
+		  delete poziom;
+		  ekran_powitalny_poziomu("GRATULACJE\n\nUDALO CI SIE\nOCZYSCIC WSZECHSWIAT",true);
+		  numer_poziomu = -1;
+		  poziom = new menu();
+		  break;
     }
   }
 
-  void ekran_powitalny_poziomu(const char tekst[10])
+  void ekran_powitalny_poziomu(const char tekst[10], bool muzyka)
   {
-    muzyka_tlo.play();
+	  if(muzyka)
+		 muzyka_tlo.play();
     sf::Text napis_powitalny(tekst,font_gry);
     napis_powitalny.setCharacterSize(okno.wysokosc_okna/10);
-    napis_powitalny.setColor(sf::Color::White);
+    napis_powitalny.setFillColor(sf::Color::White);
     sf::FloatRect ramka_napisu = napis_powitalny.getLocalBounds();
     napis_powitalny.setOrigin(ramka_napisu.left + ramka_napisu.width/2.0f,
         ramka_napisu.top + ramka_napisu.height/2.0f);
     napis_powitalny.setPosition(sf::Vector2f(okno.szerokosc_okna/2,okno.wysokosc_okna/2));
 
-    window->clear(sf::Color(100, 100, 255, 150));
+    window->clear(sf::Color::Black);
     window->draw(napis_powitalny);
     window->display();
 
-    sf::sleep(sf::seconds(3));                             //czaas wydluz
+    sf::sleep(sf::seconds(3.5));                             //czaas wydluz
     muzyka_tlo.stop();
   }
 
@@ -65,6 +90,9 @@ class game
   {
     if(poziom->logika_poziomu(window, controls))                                        //jak sie stary skonczyl
       nastepny_poziom();
+
+	if (numer_poziomu == -1)
+		nastepny_poziom();
   }
 
   void wyswietl_gre()
@@ -106,6 +134,5 @@ class game
     controls["up"] = up;
     controls["down"] = down;
     controls["fire"] = fire;
-    controls["super"] = super;
   }
 };
