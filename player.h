@@ -6,7 +6,7 @@
 #include <cstdlib>
 
 extern class_okno okno;
- 
+
 struct bullets
 {
   sf::Vector2f polozenie;
@@ -19,7 +19,6 @@ class player
     double HP,HP_max;
     sf::Sprite gracz;
     sf::Texture pojazdTekstura;
-    sf::Texture pojazdPowerUpReadyTekstura;
     sf::Vector2f wymiary;
     sf::Vector2f predkosc;
     sf::CircleShape target;
@@ -31,14 +30,15 @@ class player
     std::vector<bullets> pociski;
     sf::Clock zegar_strzalu;
     int weapon_level;
-    bool super_atak_dostepny;
-    bool super_atak;
-    sf::SoundBuffer ora_buffer;
-    sf::Sound ora_sound;
 
 
 
   public:
+
+	double zycie()
+	{
+		return HP;
+	}
 
     sf::Vector2f pozycja()
     {
@@ -62,7 +62,7 @@ class player
       {predkosc.x=-predkosc.x*1.3;predkosc.y*=1.3;}
       if(!(pozycja().y > wymiar().y / 2 && pozycja().y < okno.wysokosc_okna - wymiar().y / 1.5))
       {predkosc.y=-predkosc.y*1.3;predkosc.x*=1.3;}
-      gracz.move(predkosc);
+      gracz.move(predkosc*okno.skalaX);
       predkosc.x/=1.08;
       predkosc.y/=1.08;
     }
@@ -83,23 +83,23 @@ class player
       dzialo[0].setPosition(zaczepienie_dziala);
 
       zaczepienie_dziala = pozycja();
-      zaczepienie_dziala.y += wymiary.y/5.5f;
-      zaczepienie_dziala.x -= wymiary.x/2.5f;
+      zaczepienie_dziala.y += wymiary.y/3.f;
+      zaczepienie_dziala.x -= wymiary.x/2.8f;
       dzialo[1].setPosition(zaczepienie_dziala);
 
       zaczepienie_dziala = pozycja();
-      zaczepienie_dziala.y += wymiary.y/5.5f;
-      zaczepienie_dziala.x += wymiary.x/2.5f;
+      zaczepienie_dziala.y += wymiary.y/3.f;
+      zaczepienie_dziala.x += wymiary.x/2.8f;
       dzialo[2].setPosition(zaczepienie_dziala);
 
       zaczepienie_dziala = pozycja();
       zaczepienie_dziala.y -= wymiary.y/3.5f;
-      zaczepienie_dziala.x -= wymiary.x/5.0f;
+      zaczepienie_dziala.x -= wymiary.x/3.7f;
       dzialo[3].setPosition(zaczepienie_dziala);
 
       zaczepienie_dziala = pozycja();
       zaczepienie_dziala.y -= wymiary.y/3.5f;
-      zaczepienie_dziala.x += wymiary.x/5.0f;
+      zaczepienie_dziala.x += wymiary.x/3.7f;
       dzialo[4].setPosition(zaczepienie_dziala);
 
 
@@ -119,50 +119,28 @@ class player
 
       target_lineX.setPosition(sf::Vector2f(mysz.x, mysz.y));
       target_lineY.setPosition(sf::Vector2f(mysz.x, mysz.y));
-
-      if(super_atak)
-        logika_super_ataku(pociski_wrogow, muzyka_tlo);
     }
 
     void strzal()
     {
-      if(super_atak==false)
-        switch (weapon_level)
-        {
-          case 1:
-            bron1();	break;
-          case 2:
-            bron2();	break;
-          case 3:
-            bron3();	break;
-          default:
-          case 4:
-            bron4();	break;
-        }
+		switch (weapon_level)
+		{
+		case 1:
+			bron1();	break;
+		case 2:
+			bron2();	break;
+		case 3:
+			bron3();	break;
+		default:
+		case 4:
+			bron4();	break;
+		}
 
     }
 
-    void bron1(), bron2(), bron3(), bron4(), super_bron(bool final_modo);
+    void bron1(), bron2(), bron3(), bron4();
 
-    void logika_super_ataku(std::vector<bullets> &pociski_wrogow, sf::Music &muzyka_tlo)
-    {
-      if (ora_sound.getPlayingOffset() > sf::seconds(2))
-        pociski_wrogow.clear();
-      if (ora_sound.getPlayingOffset() > sf::seconds(2.5))
-      {
-        super_atak_dostepny = false;
-        gracz.setTexture(pojazdTekstura);
-      }
-      if (ora_sound.getPlayingOffset() > sf::seconds(3.4) && ora_sound.getPlayingOffset() < sf::seconds(6.8))
-        super_bron(false);																			//final modo
-      if (ora_sound.getPlayingOffset() > sf::seconds(7.4) && ora_sound.getPlayingOffset() < sf::seconds(7.6))
-        super_bron(true);																			//final modo
-      if (ora_sound.getPlayingOffset() > sf::seconds(7.7))
-      {
-        super_atak = false;
-        muzyka_tlo.setVolume(100);
-      }
-    }
+
 
     void rysuj_gracza(sf::RenderWindow &okienko)
     {
@@ -179,8 +157,7 @@ class player
       okienko.draw(target);
       okienko.draw(target_lineX);
       okienko.draw(target_lineY);
-      if (super_atak == false)
-      {
+      
         okienko.draw(dzialo[0]);
         if (weapon_level >= 3)
         {
@@ -192,12 +169,12 @@ class player
           okienko.draw(dzialo[3]);
           okienko.draw(dzialo[4]);
         }
-      }
+      
       for (auto &x : pociski)
       {
         kolko.setPosition(x.polozenie);
         okienko.draw(kolko);
-        x.polozenie += x.vector;
+        x.polozenie += x.vector * okno.skalaX;
       }
       okienko.draw(HP_bar_tlo);
       okienko.draw(HP_bar);
@@ -207,15 +184,14 @@ class player
     player()
     {
       pojazdTekstura.loadFromFile("assets//pojazd.png");
-      pojazdPowerUpReadyTekstura.loadFromFile("assets//pojazdpowerupready.png");
 
 
 
       gracz.setTexture(pojazdTekstura);
-      gracz.setScale(0.2f, 0.25f);
-      gracz.setOrigin(256 / 2, 231 / 2);
-      wymiary.x = 256 * 0.2f;
-      wymiary.y = 231 * 0.3f;
+      gracz.setScale(0.25f*okno.skalaX, 0.25f*okno.skalaY);
+      gracz.setOrigin(256 / 2, 256 / 2);
+      wymiary.x = 256 * 0.25f*okno.skalaX;
+	  wymiary.y = 256 * 0.3f*okno.skalaY;
       srand(time(NULL));
       gracz.setPosition(okno.szerokosc_okna/2, okno.wysokosc_okna-wymiary.y);
 
@@ -251,12 +227,9 @@ class player
       HP_bar_tlo.setOrigin(sf::Vector2f(wymiary.x / 2 + 1, 2.5));
       HP_bar_tlo.setFillColor(sf::Color::White);
 
-      weapon_level = 0;
+      weapon_level = 1;
       HP_max = 100;
       HP = HP_max;
-
-      ora_buffer.loadFromFile("assets//ora_sound.ogg");
-      ora_sound.setBuffer(ora_buffer);
 
     }
 
@@ -294,23 +267,6 @@ class player
     void level_up()
     {
       weapon_level++;
-    }
-
-    void start_super(sf::Music &muzyka_tlo)
-    {
-
-      if (ora_sound.getStatus() != sf::Sound::Playing && super_atak_dostepny == true)
-      {
-        muzyka_tlo.setVolume(20);
-        ora_sound.play();
-        super_atak = true;
-      }
-    }
-
-    void super_atak_ustaw_dostepny()
-    {
-      super_atak_dostepny = true;
-      gracz.setTexture(pojazdPowerUpReadyTekstura);
     }
 };
 

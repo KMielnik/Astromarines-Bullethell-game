@@ -9,7 +9,11 @@ extern class_okno okno;
 class menu : public level
 {
   sf::CircleShape target;
-  sf::RectangleShape target_lineX,target_lineY;
+  sf::RectangleShape target_lineX;
+  sf::RectangleShape target_lineY;
+  sf::Texture tekstura_tla;
+  sf::Texture tekstura_instrukcji;
+  sf::Sprite tlo;
 
   struct button
   {
@@ -31,13 +35,13 @@ class menu : public level
       pole.setOutlineColor(sf::Color::Black);
       pole.setOutlineThickness(5);
       pole.setOrigin(pole.getSize().x/2,pole.getSize().y/2);
-      pole.setPosition(okno.szerokosc_okna/2,pozycjaY);
+      pole.setPosition(okno.szerokosc_okna/1.3,pozycjaY);
 
       ramka = pole.getGlobalBounds();
 
       font_przycisku.loadFromFile("assets//zegar.ttf");
       napis.setFont(font_przycisku);
-      napis.setColor(sf::Color::Black);
+      napis.setFillColor(sf::Color::Black);
       napis.setCharacterSize(pole.getSize().y/1.3);
       napis.setString(nazwa);
       sf::FloatRect ramka_napisow = napis.getLocalBounds();
@@ -73,6 +77,7 @@ class menu : public level
     target.setFillColor(sf::Color::Red);
     target_lineX.setFillColor(sf::Color::Red);
     target_lineY.setFillColor(sf::Color::Red);
+	tlo.setTexture(tekstura_tla);
     for(unsigned int i=0;i<przyciski.size();i++)
       if(przyciski.at(i)->ramka.contains(mysz))
       {
@@ -86,12 +91,15 @@ class menu : public level
             case 0:
               return true;
               break;
-            case 1:
+            case 2:
               window->close();
               break;
           }
+		if (i == 1)
+			tlo.setTexture(tekstura_instrukcji);
 
       }
+	
     controls.begin();
 
     return false;                                                                       //na zawsze w menu
@@ -99,8 +107,8 @@ class menu : public level
 
   void wyswietl_poziom(sf::RenderWindow *window)
   {
-    window->clear(sf::Color(100, 100, 255, 150));
-
+    window->clear(sf::Color::Black);
+	window->draw(tlo);
     for(unsigned int i=0;i<przyciski.size();i++)
       przyciski.at(i)->rysuj_przycisk(window);
     window->draw(target);
@@ -112,6 +120,13 @@ class menu : public level
 
   menu()
   {
+
+	tekstura_tla.loadFromFile("assets//menubg.png");
+	tekstura_instrukcji.loadFromFile("assets//jakgrac.png");
+	tlo.setTexture(tekstura_tla);
+	
+	tlo.setScale(okno.skalaX, okno.skalaY);
+
     target.setRadius(3);
     target.setOutlineThickness(1);
     target.setOrigin(3, 3);
@@ -125,8 +140,11 @@ class menu : public level
     target_lineY.setSize(sf::Vector2f(1,2*okno.wysokosc_okna));
     target_lineY.setOrigin(0.5,okno.wysokosc_okna);
 
-    button *przycisk = new button("START",(okno.wysokosc_okna*4)/6);
+    button *przycisk = new button("START",(okno.wysokosc_okna*3)/6);
     przyciski.push_back(przycisk);
+
+	przycisk = new button("JAK GRAC?", (okno.wysokosc_okna * 4) / 6);
+	przyciski.push_back(przycisk);
 
     przycisk = new button("EXIT",(okno.wysokosc_okna*5)/6);
     przyciski.push_back(przycisk);

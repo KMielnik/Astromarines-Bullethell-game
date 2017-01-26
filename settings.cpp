@@ -4,7 +4,7 @@
 using namespace std;
 
 extern class_okno okno;
- 
+
 void settings()
 {
   cout << "Ustawiasz samemu? 0/1/n";

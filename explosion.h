@@ -22,7 +22,7 @@ class explosion
   void ustaw_skale(float skala)
   {
     for (unsigned int i = 0;i < eksplozja_klatka.size();i++)
-      eksplozja_klatka.at(i).setScale(skala, skala);
+      eksplozja_klatka.at(i).setScale(skala * okno.skalaX, skala * okno.skalaY);
   }
 
   explosion(sf::Vector2f polozenie,std::vector<sf::Sprite> eksplozja_klatka_src)

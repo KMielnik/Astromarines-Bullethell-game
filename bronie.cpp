@@ -27,7 +27,7 @@ void player::bron1()
 void player::bron2()
 {
   sf::Time czas = zegar_strzalu.getElapsedTime();
-  if (czas.asMilliseconds() > 60)
+  if (czas.asMilliseconds() > 50)
   {
     float y = pozycja().y - mysz.y - wymiary.y / 6.0f;
     float x = mysz.x - pozycja().x;
@@ -39,8 +39,8 @@ void player::bron2()
     bullets pocisk;
     pocisk.polozenie.x = dzialo[0].getPosition().x + nowe_x;
     pocisk.polozenie.y = dzialo[0].getPosition().y + nowe_y;
-    pocisk.vector.x = nowe_x/5;
-    pocisk.vector.y = nowe_y/5;
+    pocisk.vector.x = nowe_x/4;
+    pocisk.vector.y = nowe_y/4;
 
     pociski.push_back(pocisk);
     zegar_strzalu.restart();
@@ -126,144 +126,6 @@ void player::bron4()
     pocisk.vector.x = nowe_x / 2;
     pocisk.vector.y = nowe_y / 2;
     pociski.push_back(pocisk);
-
-    zegar_strzalu.restart();
-  }
-}
-
-void player::super_bron(bool final_modo)
-{
-  int opoznienie;
-  int predkosc;
-  if (final_modo)
-  {
-    opoznienie = 1;
-    predkosc = 3;
-  }
-  else
-  {
-    opoznienie = 100;
-    predkosc = 5;
-  }
-
-  sf::Time czas = zegar_strzalu.getElapsedTime();
-  if (czas.asMilliseconds() > opoznienie)
-  {
-    bullets pocisk;
-    //pocisk 1
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = 0;
-    pocisk.vector.y = predkosc*3;
-    pociski.push_back(pocisk);
-
-    //pocisk 2
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = 0;
-    pocisk.vector.y = -predkosc*3;
-    pociski.push_back(pocisk);
-
-    //pocisk 3
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = predkosc*3;
-    pocisk.vector.y = 0;
-    pociski.push_back(pocisk);
-
-    //pocisk 4
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = -predkosc*3;
-    pocisk.vector.y = 0;
-    pociski.push_back(pocisk);
-
-    //pocisk 5
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = predkosc*2.5;
-    pocisk.vector.y = predkosc;
-    pociski.push_back(pocisk);
-
-    //pocisk 6
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = -predkosc*2.5;
-    pocisk.vector.y = predkosc;
-    pociski.push_back(pocisk);
-
-    //pocisk 7
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = predkosc*2.5;
-    pocisk.vector.y = -predkosc;
-    pociski.push_back(pocisk);
-
-    //pocisk 8
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = -predkosc*2.5;
-    pocisk.vector.y = -predkosc;
-    pociski.push_back(pocisk);
-
-    //pocisk 9
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = predkosc*1.5;
-    pocisk.vector.y = predkosc*1.5;
-    pociski.push_back(pocisk);
-
-    //pocisk 10
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = -predkosc*1.5;
-    pocisk.vector.y = predkosc*1.5;
-    pociski.push_back(pocisk);
-
-    //pocisk 11
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = predkosc*1.5;
-    pocisk.vector.y = -predkosc*1.5;
-    pociski.push_back(pocisk);
-
-    //pocisk 12
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = -predkosc*1.5;
-    pocisk.vector.y = -predkosc*1.5;
-    pociski.push_back(pocisk);
-
-    //pocisk 13
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = predkosc;
-    pocisk.vector.y = predkosc*2.5;
-    pociski.push_back(pocisk);
-
-    //pocisk 14
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = -predkosc;
-    pocisk.vector.y = predkosc*2.5;
-    pociski.push_back(pocisk);
-
-    //pocisk 15
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = predkosc;
-    pocisk.vector.y = -predkosc*2.5;
-    pociski.push_back(pocisk);
-
-    //pocisk 16
-    pocisk.polozenie.x = gracz.getPosition().x;
-    pocisk.polozenie.y = gracz.getPosition().y;
-    pocisk.vector.x = -predkosc;
-    pocisk.vector.y = -predkosc*2.5;
-    pociski.push_back(pocisk);
-
-
-
 
     zegar_strzalu.restart();
   }
