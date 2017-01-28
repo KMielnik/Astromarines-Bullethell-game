@@ -37,6 +37,7 @@ class boss0
 	virtual void strzal(std::vector<bullets> &pociski) = 0;
 	virtual bool ded() = 0;
 	virtual void stopMusic() = 0;
+	virtual bool czyBossGrzeczny() = 0;
 
     ~boss0()
     {

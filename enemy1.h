@@ -71,11 +71,11 @@ class enemy1 : public enemy
 	  }
 	  for (sf::Sprite &przeciwnik : wrog)
 	  {
-		  przeciwnik.setScale(0.3f*okno.skalaX, 0.3f*okno.skalaY);
+		  przeciwnik.setScale(0.3f*okno.skalaX, 0.3f*okno.skalaX);
 		  przeciwnik.setOrigin(255 / 2, 255 / 2);
 	  }
 	  wymiary.x = 255 * 0.3f*okno.skalaX;
-	  wymiary.y = 255 * 0.3f*okno.skalaY;
+	  wymiary.y = 255 * 0.3f*okno.skalaX;
 
       int kierunek = std::rand() % 4 + 1;
       int losowa_pozycja_x,losowa_pozycja_y;

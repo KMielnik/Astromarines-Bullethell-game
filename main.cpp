@@ -7,7 +7,7 @@ class_okno okno;
 int main()
 {
   srand( time( NULL ) );
-  auto *window = new sf::RenderWindow(sf::VideoMode(okno.szerokosc_okna, okno.wysokosc_okna), "ASTROMARINES THE GAME v1.0",sf::Style::Fullscreen);
+  auto *window = new sf::RenderWindow(sf::VideoMode(okno.szerokosc_okna, okno.wysokosc_okna), "ASTROMARINES THE GAME v1.17",sf::Style::Fullscreen);
   window->requestFocus();
   window->setMouseCursorVisible(false);
   window->setFramerateLimit(60);

@@ -60,6 +60,8 @@ class game
 		  ekran_powitalny_poziomu("GRATULACJE\n\nUDALO CI SIE\nOCZYSCIC WSZECHSWIAT",true);
 		  numer_poziomu = -1;
 		  poziom = new menu();
+		  delete gracz;
+		  gracz = new player();
 		  break;
     }
   }

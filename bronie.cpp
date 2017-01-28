@@ -7,7 +7,7 @@ void player::bron1()
   if (czas.asMilliseconds() > 200)
   {
     float y = pozycja().y - mysz.y - wymiary.y / 6.0f;
-    float x = mysz.x - pozycja().x;                                    //aby zrozumiec podpisz 1 pakt z diab³em
+    float x = mysz.x - pozycja().x;                                    //  ;)
     float z = sqrt(pow(x, 2) + pow(y, 2));
     float nowe_z = dzialo[0].getSize().y + 2;
     float nowe_x = x / (z / nowe_z);

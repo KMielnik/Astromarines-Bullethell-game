@@ -30,6 +30,7 @@ class player
     std::vector<bullets> pociski;
     sf::Clock zegar_strzalu;
     int weapon_level;
+	bool bossJestGrzeczny;          
 
 
 
@@ -103,8 +104,11 @@ class player
       dzialo[4].setPosition(zaczepienie_dziala);
 
 
+	  if (bossJestGrzeczny)
+		  mysz = myszka;
+	  else
+		  mysz = sf::Vector2i(okno.szerokosc_okna / 2, okno.wysokosc_okna / 2);
 
-      mysz = myszka;
       angle(mysz);
       dzialo[0].setRotation(kat);
       dzialo[1].setRotation(kat);
@@ -113,12 +117,11 @@ class player
       dzialo[4].setRotation(kat);
 
 
-      target.setPosition(sf::Vector2f(mysz.x, mysz.y));
-      HP_bar.setPosition(gracz.getPosition().x, gracz.getPosition().y + (wymiary.y * 6 / 10));
-      HP_bar_tlo.setPosition(gracz.getPosition().x, gracz.getPosition().y + (wymiary.y * 6 / 10));
-
-      target_lineX.setPosition(sf::Vector2f(mysz.x, mysz.y));
-      target_lineY.setPosition(sf::Vector2f(mysz.x, mysz.y));
+	  target.setPosition(sf::Vector2f(mysz.x, mysz.y));
+	  target_lineX.setPosition(sf::Vector2f(mysz.x, mysz.y));
+	  target_lineY.setPosition(sf::Vector2f(mysz.x, mysz.y));
+	  HP_bar.setPosition(gracz.getPosition().x, gracz.getPosition().y + (wymiary.y * 6 / 10));
+	  HP_bar_tlo.setPosition(gracz.getPosition().x, gracz.getPosition().y + (wymiary.y * 6 / 10));
     }
 
     void strzal()
@@ -228,11 +231,18 @@ class player
       HP_bar_tlo.setFillColor(sf::Color::White);
 
       weapon_level = 1;
-      HP_max = 100;
+      HP_max = 150;
       HP = HP_max;
-
+	  bossJestGrzeczny = 1;
     }
 
+	void grzecznoscBossaOff() {				//wybacz mi Ojcze za grzechy moje
+		bossJestGrzeczny = false;
+	}
+
+	void grzecznoscBossaOn() {				//wybacz mi Ojcze za grzechy moje
+		bossJestGrzeczny = true;
+	}
 
     void angle(sf::Vector2i aktualna_mysz)
     {

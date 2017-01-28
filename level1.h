@@ -128,7 +128,7 @@ class level1 : public level
 
   void tworzenie_wroga()
   {
-    if(zegar_wroga.getElapsedTime()>sf::seconds(2))
+    if(zegar_wroga.getElapsedTime()>sf::seconds(3))
     {
       int ktory_wrog = std::rand() % 2 + 2;
       enemy *temp_pointer;

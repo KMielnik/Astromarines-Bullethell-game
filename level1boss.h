@@ -19,6 +19,8 @@ class level1boss : public level
   sf::Texture eksplozja_sprite;
   sf::Clock zegar_wygranej;
   sf::Time czasPoWygranej;
+  float secPoWygranej;
+
 
   public:
   bool logika_poziomu( sf::RenderWindow *window,
@@ -46,16 +48,26 @@ class level1boss : public level
 
 	logika_pociskow_wrogow();
 
+	if (szef->czyBossGrzeczny() == true)
+		gracz->grzecznoscBossaOn();
+	if (szef->czyBossGrzeczny() == false)
+		gracz->grzecznoscBossaOff();
+
 	if (szef->obrazenia(*gracz))                                       //jesli umarl to :(
 	{
-		if (szef->ded())
-		{
-			explosion wybuch(szef->pozycja(), eksplozja_klatka);
-			wybuch.ustaw_skale(7.0);
-			eksplozje.push_back(wybuch);
-		}
+		szef->ded();
 		czasPoWygranej = zegar_wygranej.getElapsedTime();
 	}
+
+		if (zegar_wygranej.getElapsedTime() >= (czasPoWygranej + sf::milliseconds((int)((secPoWygranej*1000)-1000))) &&
+			zegar_wygranej.getElapsedTime() <= (czasPoWygranej + sf::milliseconds(2000)))
+		{
+			explosion wybuch(szef->pozycja() + sf::Vector2f(std::rand() % (int)(700*okno.skalaX) - (350*okno.skalaX), std::rand() % (int)(100*okno.skalaY) - (50*okno.skalaY)), eksplozja_klatka);
+			wybuch.ustaw_skale(3.0 / (int)secPoWygranej+1);
+			eksplozje.push_back(wybuch);
+			secPoWygranej+=0.1;
+		}
+
 
 	if (zegar_wygranej.getElapsedTime() > (czasPoWygranej + sf::seconds(5)))
 		return true;
@@ -128,6 +140,7 @@ class level1boss : public level
 
 	zegar_wygranej.restart();
 	czasPoWygranej = sf::seconds(732891312);
+	secPoWygranej = 0;
   }
 
   ~level1boss()

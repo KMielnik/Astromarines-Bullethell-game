@@ -18,6 +18,7 @@ class boss1 : public boss0
   int klatka_maincannon;
   bool alive;
   sf::Music SUPPAATTAKKU;
+  sf::Music noooooooooooooooo;
 
   public:
   void rysuj_bossa(sf::RenderWindow *window)
@@ -53,43 +54,45 @@ class boss1 : public boss0
 
   void przemieszczenie()
   {
+	  if (alive)
+	  {
+		  if (kierunek_lotuX == "lewo")
+			  for (auto &sprite : boss)
+				  sprite.move(-0.9 * okno.skalaX, 0 * okno.skalaY);
 
-    if (kierunek_lotuX == "lewo")
-      for (auto &sprite : boss)
-        sprite.move(-0.4 * okno.skalaX, 0 * okno.skalaY);
+		  if (kierunek_lotuX == "prawo")
+			  for (auto &sprite : boss)
+				  sprite.move(0.9 * okno.skalaX, 0 * okno.skalaY);
 
-    if (kierunek_lotuX == "prawo")
-      for (auto &sprite : boss)
-        sprite.move(0.4 * okno.skalaX, 0 * okno.skalaY);
+		  if (kierunek_lotuY == "gora")
+			  for (auto &sprite : boss)
+				  sprite.move(0 * okno.skalaX, -0.25 * okno.skalaY);
 
-    if (kierunek_lotuY == "gora")
-      for (auto &sprite : boss)
-        sprite.move(0 * okno.skalaX, -0.15 * okno.skalaY);
+		  if (kierunek_lotuY == "dol")
+			  for (auto &sprite : boss)
+				  sprite.move(0 * okno.skalaX, 0.25 * okno.skalaY);
 
-    if (kierunek_lotuY == "dol")
-      for (auto &sprite : boss)
-        sprite.move(0 * okno.skalaX, 0.15 * okno.skalaY);
+		  przeleconeX++;
+		  przeleconeY++;
 
-    przeleconeX++;
-    przeleconeY++;
+		  if (przeleconeX > okno.szerokosc_okna / 2)
+		  {
+			  if (kierunek_lotuX == "lewo")
+				  kierunek_lotuX = "prawo";
+			  else if (kierunek_lotuX == "prawo")
+				  kierunek_lotuX = "lewo";
+			  przeleconeX = 0;
+		  }
 
-    if (przeleconeX > okno.szerokosc_okna/4)
-    {
-      if (kierunek_lotuX == "lewo")
-        kierunek_lotuX = "prawo";
-      else if (kierunek_lotuX == "prawo")
-        kierunek_lotuX = "lewo";
-      przeleconeX = 0;
-    }
-
-    if (przeleconeY > okno.wysokosc_okna / 6)
-    {
-      if (kierunek_lotuY == "gora")
-        kierunek_lotuY = "dol";
-      else if (kierunek_lotuY == "dol")
-        kierunek_lotuY = "gora";
-      przeleconeY = 0;
-    }
+		  if (przeleconeY > okno.wysokosc_okna / 4)
+		  {
+			  if (kierunek_lotuY == "gora")
+				  kierunek_lotuY = "dol";
+			  else if (kierunek_lotuY == "dol")
+				  kierunek_lotuY = "gora";
+			  przeleconeY = 0;
+		  }
+	  }
   }
 
   void ustaw_dziala()
@@ -115,7 +118,11 @@ class boss1 : public boss0
 				  HP_bar.setSize(sf::Vector2f((HP_bar_tlo.getSize().x - 2) * HP / HP_max, 3 * 3));
 				  gracz.usun_pocisk(i);
 				  if (HP <= 0)
+				  {
+					  if (noooooooooooooooo.getStatus() != noooooooooooooooo.Playing)
+						  noooooooooooooooo.play();
 					  return true;                                                                                //umarl :(
+				  }
 			  }
 	  }
     return false;                                                                                               //nie umarl
@@ -186,6 +193,7 @@ class boss1 : public boss0
 
 	SUPPAATTAKKU.openFromFile("assets//ORA.ogg");
 	SUPPAATTAKKU.setLoop(true);
+	noooooooooooooooo.openFromFile("assets//explosion.ogg");
 	alive = 1;													//ON ZYJEEEEEEEEEEEEEEEEEEEEEEE
   }
 
@@ -198,14 +206,14 @@ class boss1 : public boss0
 		  {
 			  
 			  
-			  for (int i = 0;i <= 3;i++)
+			  for (int i = 0;i <= 4;i++)
 			  {
 				  //Pocisk 1
 				  bullets pocisk;
 				  pocisk.polozenie.x = boss.at(0).getPosition().x;
 				  pocisk.polozenie.y = boss.at(0).getPosition().y - wymiary.y / 10;
-				  pocisk.vector.x = (std::rand() % 10 - 5) * okno.skalaX;
-				  pocisk.vector.y = (std::rand() % 5 + 0.3) * okno.skalaY;
+				  pocisk.vector.x = (std::rand() % 12 - 6) * okno.skalaX;
+				  pocisk.vector.y = (std::rand() % 4 + 2) * okno.skalaY;
 				  pociski.push_back(pocisk);
 
 
@@ -213,8 +221,8 @@ class boss1 : public boss0
 				  //bullets pocisk;
 				  pocisk.polozenie.x = boss.at(0).getPosition().x;
 				  pocisk.polozenie.y = boss.at(0).getPosition().y + wymiary.y / 3;
-				  pocisk.vector.x = (std::rand() % 10 - 5) * okno.skalaX;
-				  pocisk.vector.y = (std::rand() % 5 + 0.3) * okno.skalaY;
+				  pocisk.vector.x = (std::rand() % 12 - 6) * okno.skalaX;
+				  pocisk.vector.y = (std::rand() % 4 + 2) * okno.skalaY;
 				  pociski.push_back(pocisk);
 			  }
 			 
@@ -232,11 +240,24 @@ class boss1 : public boss0
 				  SUPPAATTAKKU.play();
 			  
 		  }
+		  
 	  }
+	  if (HP <= 0)
+		  SUPPAATTAKKU.stop();
+		  
+  }
+
+  bool czyBossGrzeczny()
+  {
+	  if ((HP > HP_max / 2) || (HP <= 0))
+		  return true;
+	  else
+		  return false;
   }
 
   ~boss1()
   {
 	  SUPPAATTAKKU.stop();
+	  
   }
 };
