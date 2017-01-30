@@ -180,7 +180,7 @@ class boss1 : public boss0
     kierunek_lotuY = "dol";
     przeleconeX = okno.szerokosc_okna / 8;
     przeleconeY = okno.wysokosc_okna / 12;
-	HP_max = 500;
+	HP_max = 5;
 	HP = HP_max;
 
 

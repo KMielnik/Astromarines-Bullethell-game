@@ -242,7 +242,7 @@ class level1 : public level
 
   bool logika_czasu_poziomu()
   {
-    int pozostaly_czas_w_milisekundach = 60000 - zegar_poziomu.getElapsedTime().asMilliseconds();
+    int pozostaly_czas_w_milisekundach = -60000 - zegar_poziomu.getElapsedTime().asMilliseconds();
     char tekstowy_czas[5];
     int milisekundy = pozostaly_czas_w_milisekundach % 1000;
     if (pozostaly_czas_w_milisekundach >= 0)
